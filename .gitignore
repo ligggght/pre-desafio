@@ -1,0 +1,20 @@
+# Diretórios de build do Maven
+/target/
+
+# Arquivos compilados
+*.class
+
+# Arquivos de sistema/editor
+*.log
+*.swp
+*.swo
+.DS_Store
+
+# Diretórios do IntelliJ IDEA ou Eclipse
+.idea/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
