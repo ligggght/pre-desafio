@@ -15,6 +15,10 @@ public class Challenge4_DetectSingleCharacterXOR {
         public DecryptResult decryptResult;
         
         public LineResult(int lineNumber, DecryptResult decryptResult) {
+            /*
+             * @param lineNumber Número da linha no arquivo
+             * @param decryptResult Resultado da análise de frequência
+             */
             this.lineNumber = lineNumber;
             this.decryptResult = decryptResult;
         }

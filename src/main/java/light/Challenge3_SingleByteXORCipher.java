@@ -27,6 +27,10 @@ public class Challenge3_SingleByteXORCipher {
 
     // Método 1: Análise de frequência de caracteres
     public static DecryptResult solveByFrequencyAnalysis(String TARGET_HEX) {
+        /*
+         * @param TARGET_HEX: String hexadecimal criptografada
+         * @return: DecryptResult com a melhor chave, texto descriptografado e score
+         */
         byte[] encrypted = Challenge1_HexToBase64.hexToBytes(TARGET_HEX);
         DecryptResult best = new DecryptResult(0, "", Double.NEGATIVE_INFINITY, "FREQUENCY");
         

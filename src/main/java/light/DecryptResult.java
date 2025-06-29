@@ -11,6 +11,12 @@ public class DecryptResult {
     public String method;
     
     public DecryptResult(int key, String plaintext, double score, String method) {
+        /*
+         * @param key Chave utilizada para decifrar o texto
+         * @param plaintext Texto decifrado
+         * @param score Pontuação de frequência do texto decifrado
+         * @param method Método utilizado para decifrar o texto
+         */
         this.key = key;
         this.plaintext = plaintext;
         this.score = score;
