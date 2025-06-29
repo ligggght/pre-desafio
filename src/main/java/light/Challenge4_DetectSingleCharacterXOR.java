@@ -21,30 +21,14 @@ public class Challenge4_DetectSingleCharacterXOR {
         
         @Override
         public String toString() {
-            return String.format("Linha %3d | %s", lineNumber, decryptResult.toString());
-        }
+            // Limpa caracteres não-imprimíveis do texto para melhor visualização
+            String cleanText = decryptResult.plaintext.replaceAll("[\\p{Cntrl}]", "?");
+
+            return String.format("Linha %3d | Chave: %3d (0x%02X) | Pontuacao: %8.2f | Método: %-15s | Texto: %s", 
+                            lineNumber, decryptResult.key, decryptResult.key, 
+                            decryptResult.score, decryptResult.method, cleanText);
+            }
     }
-    
-    // // Analisa uma string hex aplicando análise de frequência para todas as 256 chaves
-    // public static DecryptResult analyzeHexString(String hexString) {
-    //     try {
-    //         byte[] encrypted = Challenge1_HexToBase64.hexToBytes(hexString.trim());
-    //         DecryptResult best = new DecryptResult(0, "", Double.NEGATIVE_INFINITY, "FREQUENCY");
-            
-    //         // Testa todas as 256 chaves possíveis
-    //         for (int key = 0; key < 256; key++) {
-    //             String decrypted = Challenge3_SingleByteXORCipher.decrypt(encrypted, (byte) key);
-    //             double score = Challenge3_SingleByteXORCipher.calculateFrequencyScore(decrypted);
-                
-    //             if (score > best.score) {
-    //                 best = new DecryptResult(key, decrypted, score, "FREQUENCY");
-    //             }
-    //         }
-    //         return best;
-    //     } catch (Exception e) {
-    //         return new DecryptResult(0, "", 0, "ERROR");
-    //     }
-    // }
     
     // Encontra a linha do arquivo que possui o maior score de frequência
     public static LineResult findEncryptedLine() {
@@ -56,7 +40,7 @@ public class Challenge4_DetectSingleCharacterXOR {
             for (int i = 0; i < lines.size(); i++) {
                 String line = lines.get(i).trim();
                 if (!line.isEmpty()) {
-                    DecryptResult result = analyzeHexString(line);
+                    DecryptResult result = Challenge3_SingleByteXORCipher.solveByFrequencyAnalysis(line);
                     LineResult lineResult = new LineResult(i + 1, result);
                     
                     // Mantém a linha com melhor score
@@ -83,7 +67,7 @@ public class Challenge4_DetectSingleCharacterXOR {
             for (int i = 0; i < lines.size(); i++) {
                 String line = lines.get(i).trim();
                 if (!line.isEmpty()) {
-                    DecryptResult result = analyzeHexString(line);
+                    DecryptResult result = Challenge3_SingleByteXORCipher.solveByFrequencyAnalysis(line);
                     results.add(new LineResult(i + 1, result));
                 }
             }
