@@ -22,7 +22,7 @@ public class Challenge2_FixedXOR {
         return bytesToHex(result);
     }
 
-    private static String bytesToHex(byte[] bytes) {
+    public static String bytesToHex(byte[] bytes) {
         /*
          * @param bytes Array de bytes a ser convertido para hexadecimal
          * @return String representando os bytes em formato hexadecimal
