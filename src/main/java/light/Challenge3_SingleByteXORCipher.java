@@ -26,27 +26,27 @@ public class Challenge3_SingleByteXORCipher {
     private static final String TARGET_HEX = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736";
 
     // Método 1: Análise de frequência de caracteres
-    public static DecryptResult solveByFrequencyAnalysis(String TARGET_HEX) {
+    public static DecryptedResult solveByFrequencyAnalysis(String TARGET_HEX) {
         /*
          * @param TARGET_HEX: String hexadecimal criptografada
-         * @return: DecryptResult com a melhor chave, texto descriptografado e score
+         * @return: DecryptedResult com a melhor chave, texto descriptografado e score
          */
         byte[] encrypted = Challenge1_HexToBase64.hexToBytes(TARGET_HEX);
-        DecryptResult best = new DecryptResult(0, "", Double.NEGATIVE_INFINITY, "FREQUENCY");
+        DecryptedResult best = new DecryptedResult(0, "", Double.NEGATIVE_INFINITY, "FREQUENCY");
         
         for (int key = 0; key < 256; key++) {
             String decrypted = decrypt(encrypted, (byte) key);
             double score = calculateFrequencyScore(decrypted);
             
             if (score > best.score) {
-                best = new DecryptResult(key, decrypted, score, "FREQUENCY");
+                best = new DecryptedResult(key, decrypted, score, "FREQUENCY");
             }
         }
         return best;
     }
 
     // Método 2: Busca por palavras comuns em inglês (ver referências)
-    public static DecryptResult solveByCommonWords(String TARGET_HEX) {
+    public static DecryptedResult solveByCommonWords(String TARGET_HEX) {
         byte[] encrypted = Challenge1_HexToBase64.hexToBytes(TARGET_HEX);
         String[] commonWords = {
             "the", "be", "to", "of", "and", "a", "in", "that", "have", "I",
@@ -61,7 +61,7 @@ public class Challenge3_SingleByteXORCipher {
             "even", "new", "want", "because", "any", "these", "give", "day", "most", "us"
         };
         
-        DecryptResult best = new DecryptResult(0, "", 0, "COMMON_WORDS");
+        DecryptedResult best = new DecryptedResult(0, "", 0, "COMMON_WORDS");
         
         for (int key = 0; key < 256; key++) {
             String decrypted = decrypt(encrypted, (byte) key).toLowerCase();
@@ -74,21 +74,21 @@ public class Challenge3_SingleByteXORCipher {
             }
             
             if (wordCount > best.score) {
-                best = new DecryptResult(key, decrypt(encrypted, (byte) key), wordCount, "COMMON_WORDS");
+                best = new DecryptedResult(key, decrypt(encrypted, (byte) key), wordCount, "COMMON_WORDS");
             }
         }
         return best;
     }
 
     // Método 3: Brute force com visualização
-    public static List<DecryptResult> bruteForceSolution(String TARGET_HEX) {
+    public static List<DecryptedResult> bruteForceSolution(String TARGET_HEX) {
         byte[] encrypted = Challenge1_HexToBase64.hexToBytes(TARGET_HEX);
-        List<DecryptResult> results = new ArrayList<>();
+        List<DecryptedResult> results = new ArrayList<>();
         
         for (int key = 0; key < 256; key++) {
             String decrypted = decrypt(encrypted, (byte) key);
             double freqScore = calculateFrequencyScore(decrypted);
-            results.add(new DecryptResult(key, decrypted, freqScore, "BRUTE_FORCE"));
+            results.add(new DecryptedResult(key, decrypted, freqScore, "BRUTE_FORCE"));
         }
         
         results.sort((a, b) -> Double.compare(b.score, a.score));
@@ -146,6 +146,7 @@ public class Challenge3_SingleByteXORCipher {
         return score;
     }
 
+    // Interface para o usuário interagir e decidir como quer resolver o problema 
     public static void runInteractiveInterface() {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -177,7 +178,7 @@ public class Challenge3_SingleByteXORCipher {
                 case 1:
                     System.out.println("=== ANÁLISE DE FREQUÊNCIA DE CARACTERES ===");
                     long startTime = System.nanoTime();
-                    DecryptResult freq = solveByFrequencyAnalysis(TARGET_HEX);
+                    DecryptedResult freq = solveByFrequencyAnalysis(TARGET_HEX);
                     long endTime = System.nanoTime();
                     double timeMs = (endTime - startTime) / 1_000_000.0;
                     
@@ -189,7 +190,7 @@ public class Challenge3_SingleByteXORCipher {
                 case 2:
                     System.out.println("=== BUSCA POR PALAVRAS COMUNS ===");
                     startTime = System.nanoTime();
-                    DecryptResult words = solveByCommonWords(TARGET_HEX);
+                    DecryptedResult words = solveByCommonWords(TARGET_HEX);
                     endTime = System.nanoTime();
                     timeMs = (endTime - startTime) / 1_000_000.0;
                     
@@ -201,7 +202,7 @@ public class Challenge3_SingleByteXORCipher {
                 case 3:
                     System.out.println("=== BRUTE FORCE (TOP 5 RESULTADOS) ===");
                     startTime = System.nanoTime();
-                    List<DecryptResult> brute = bruteForceSolution(TARGET_HEX);
+                    List<DecryptedResult> brute = bruteForceSolution(TARGET_HEX);
                     endTime = System.nanoTime();
                     timeMs = (endTime - startTime) / 1_000_000.0;
                     
@@ -218,21 +219,21 @@ public class Challenge3_SingleByteXORCipher {
                     System.out.println();
                     
                     long freqStart = System.nanoTime();
-                    DecryptResult freqResult = solveByFrequencyAnalysis(TARGET_HEX);
+                    DecryptedResult freqResult = solveByFrequencyAnalysis(TARGET_HEX);
                     long freqEnd = System.nanoTime();
                     double freqTime = (freqEnd - freqStart) / 1_000_000.0;
                     
                     long wordsStart = System.nanoTime();
-                    DecryptResult wordsResult = solveByCommonWords(TARGET_HEX);
+                    DecryptedResult wordsResult = solveByCommonWords(TARGET_HEX);
                     long wordsEnd = System.nanoTime();
                     double wordsTime = (wordsEnd - wordsStart) / 1_000_000.0;
                     
                     long bruteStart = System.nanoTime();
-                    List<DecryptResult> bruteResults = bruteForceSolution(TARGET_HEX);
+                    List<DecryptedResult> bruteResults = bruteForceSolution(TARGET_HEX);
                     long bruteEnd = System.nanoTime();
                     double bruteTime = (bruteEnd - bruteStart) / 1_000_000.0;
-                    DecryptResult bruteResult = bruteResults.isEmpty() ? 
-                        new DecryptResult(0, "", 0, "BRUTE_FORCE") : bruteResults.get(0);
+                    DecryptedResult bruteResult = bruteResults.isEmpty() ? 
+                        new DecryptedResult(0, "", 0, "BRUTE_FORCE") : bruteResults.get(0);
                     
                     System.out.printf("1. %s | Tempo: %6.2f ms%n", freqResult, freqTime);
                     System.out.printf("2. %s | Tempo: %6.2f ms%n", wordsResult, wordsTime);
@@ -243,7 +244,7 @@ public class Challenge3_SingleByteXORCipher {
                     double fastestTime = freqTime <= wordsTime && freqTime <= bruteTime ? freqTime :
                                     wordsTime <= bruteTime ? wordsTime : bruteTime;
                     
-                    DecryptResult bestScore = freqResult.score >= wordsResult.score && freqResult.score >= bruteResult.score ? freqResult :
+                    DecryptedResult bestScore = freqResult.score >= wordsResult.score && freqResult.score >= bruteResult.score ? freqResult :
                                             wordsResult.score >= bruteResult.score ? wordsResult : bruteResult;
                     
                     System.out.printf("\nMais rápido: %s (%.2f ms)%n", fastest, fastestTime);
@@ -280,7 +281,7 @@ public class Challenge3_SingleByteXORCipher {
                     
                     if (confirm.equals("s") || confirm.equals("sim")) {
                         long allStart = System.nanoTime();
-                        List<DecryptResult> allResults = bruteForceSolution(TARGET_HEX);
+                        List<DecryptedResult> allResults = bruteForceSolution(TARGET_HEX);
                         long allEnd = System.nanoTime();
                         
                         System.out.println("\nResultados ordenados por score (melhores primeiro):");
@@ -288,7 +289,7 @@ public class Challenge3_SingleByteXORCipher {
                         System.out.println("----|-----|----------|--------------------------------");
                         
                         for (int i = 0; i < allResults.size(); i++) {
-                            DecryptResult r = allResults.get(i);
+                            DecryptedResult r = allResults.get(i);
                             String preview = r.plaintext.length() > 30 ? 
                                 r.plaintext.substring(0, 30) + "..." : r.plaintext;
                             preview = preview.replaceAll("[\\p{Cntrl}]", "?");

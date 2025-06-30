@@ -4,13 +4,13 @@ package light;
  * Classe para armazenar o resultado da análise de uma string criptografada
  * encapsulando a chave, o texto decifrado, a pontuação e o método utilizado.
  */
-public class DecryptResult {
+public class DecryptedResult {
     public int key;
     public String plaintext;
     public double score;
     public String method;
     
-    public DecryptResult(int key, String plaintext, double score, String method) {
+    public DecryptedResult(int key, String plaintext, double score, String method) {
         /*
          * @param key Chave utilizada para decifrar o texto
          * @param plaintext Texto decifrado

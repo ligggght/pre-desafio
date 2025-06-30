@@ -12,25 +12,25 @@ public class Challenge4_DetectSingleCharacterXOR {
     // Classe para armazenar resultado de uma linha com seu número
     public static class LineResult {
         public int lineNumber;
-        public DecryptResult decryptResult;
+        public DecryptedResult DecryptedResult;
         
-        public LineResult(int lineNumber, DecryptResult decryptResult) {
+        public LineResult(int lineNumber, DecryptedResult DecryptedResult) {
             /*
              * @param lineNumber Número da linha no arquivo
-             * @param decryptResult Resultado da análise de frequência
+             * @param DecryptedResult Resultado da análise de frequência
              */
             this.lineNumber = lineNumber;
-            this.decryptResult = decryptResult;
+            this.DecryptedResult = DecryptedResult;
         }
         
         @Override
         public String toString() {
             // Limpa caracteres não-imprimíveis do texto para melhor visualização
-            String cleanText = decryptResult.plaintext.replaceAll("[\\p{Cntrl}]", "?");
+            String cleanText = DecryptedResult.plaintext.replaceAll("[\\p{Cntrl}]", "?");
 
             return String.format("Linha %3d | Chave: %3d (0x%02X) | Pontuacao: %8.2f | Método: %-15s | Texto: %s", 
-                            lineNumber, decryptResult.key, decryptResult.key, 
-                            decryptResult.score, decryptResult.method, cleanText);
+                            lineNumber, DecryptedResult.key, DecryptedResult.key, 
+                            DecryptedResult.score, DecryptedResult.method, cleanText);
             }
     }
     
@@ -44,11 +44,11 @@ public class Challenge4_DetectSingleCharacterXOR {
             for (int i = 0; i < lines.size(); i++) {
                 String line = lines.get(i).trim();
                 if (!line.isEmpty()) {
-                    DecryptResult result = Challenge3_SingleByteXORCipher.solveByFrequencyAnalysis(line);
+                    DecryptedResult result = Challenge3_SingleByteXORCipher.solveByFrequencyAnalysis(line);
                     LineResult lineResult = new LineResult(i + 1, result);
                     
                     // Mantém a linha com melhor score
-                    if (best == null || result.score > best.decryptResult.score) {
+                    if (best == null || result.score > best.DecryptedResult.score) {
                         best = lineResult;
                     }
                 }
@@ -71,13 +71,13 @@ public class Challenge4_DetectSingleCharacterXOR {
             for (int i = 0; i < lines.size(); i++) {
                 String line = lines.get(i).trim();
                 if (!line.isEmpty()) {
-                    DecryptResult result = Challenge3_SingleByteXORCipher.solveByFrequencyAnalysis(line);
+                    DecryptedResult result = Challenge3_SingleByteXORCipher.solveByFrequencyAnalysis(line);
                     results.add(new LineResult(i + 1, result));
                 }
             }
             
             // Ordena por score (maior primeiro)
-            results.sort((a, b) -> Double.compare(b.decryptResult.score, a.decryptResult.score));
+            results.sort((a, b) -> Double.compare(b.DecryptedResult.score, a.DecryptedResult.score));
             return results;
         } catch (IOException e) {
             System.err.println("Erro ao ler arquivo: " + e.getMessage());

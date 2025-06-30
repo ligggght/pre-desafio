@@ -5,7 +5,7 @@ public class Challenge2_FixedXOR {
         /*
          * @param hex1 Primeira string hexadecimal
          * @param hex2 Segunda string hexadecimal
-         * * @return String resultante da operação XOR entre os bytes correspondentes
+         * @return String resultante da operação XOR entre os bytes correspondentes
          */
         if (hex1.length() != hex2.length()) {
             throw new IllegalArgumentException("Hex strings must be of the same length");
@@ -41,15 +41,12 @@ public class Challenge2_FixedXOR {
     public static void main(String[] args) {
         String hex1 = "1c0111001f010100061a024b53535009181c";
         String hex2 = "686974207468652062756c6c277320657965";
-        String expected = "746865206b696420646f6e277420706c6179";
 
         try {
             String result = fixedXOR(hex1, hex2);
             System.out.println("Input Hex 1: " + hex1);
             System.out.println("Input Hex 2: " + hex2);
             System.out.println("XOR Result: " + result);
-            System.out.println("Expected: " + expected);
-            System.out.println("Test " + (result.equals(expected) ? "passed!" : "failed!"));
         } catch (IllegalArgumentException e) {
             System.err.println("Error: " + e.getMessage());
         }

@@ -36,6 +36,7 @@ public class Challenge5_RepeatingKeyXOR {
         String key = "ICE";
 
         String encryptedHex = encryptRepeatingKeyXOR(text, key);
-        System.out.println(encryptedHex);
+        System.out.println("Texto original: " + text);
+        System.out.println("Texto criptografado: " + encryptedHex);
     }
 }
