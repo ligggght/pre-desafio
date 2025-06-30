@@ -85,7 +85,7 @@ public class Challenge3_SingleByteXORCipher {
         byte[] encrypted = Challenge1_HexToBase64.hexToBytes(TARGET_HEX);
         List<DecryptResult> results = new ArrayList<>();
         
-        for (int key = 0; key <= 255; key++) {
+        for (int key = 0; key < 256; key++) {
             String decrypted = decrypt(encrypted, (byte) key);
             double freqScore = calculateFrequencyScore(decrypted);
             results.add(new DecryptResult(key, decrypted, freqScore, "BRUTE_FORCE"));
@@ -181,7 +181,7 @@ public class Challenge3_SingleByteXORCipher {
                     long endTime = System.nanoTime();
                     double timeMs = (endTime - startTime) / 1_000_000.0;
                     
-                    System.out.printf("%s | Time: %6.2f ms%n", freq, timeMs);
+                    System.out.printf("%s | Tempo: %6.2f ms%n", freq, timeMs);
                     System.out.println("\nEste método analisa a frequência de letras comparando com");
                     System.out.println("as frequências típicas do inglês (e=12.02%, t=9.10%, etc.)");
                     break;
@@ -193,7 +193,7 @@ public class Challenge3_SingleByteXORCipher {
                     endTime = System.nanoTime();
                     timeMs = (endTime - startTime) / 1_000_000.0;
                     
-                    System.out.printf("%s | Time: %6.2f ms%n", words, timeMs);
+                    System.out.printf("%s | Tempo: %6.2f ms%n", words, timeMs);
                     System.out.println("\nEste método procura por palavras comuns em inglês como");
                     System.out.println("'the', 'and', 'that', 'have', etc. no texto descriptografado");
                     break;
@@ -234,9 +234,9 @@ public class Challenge3_SingleByteXORCipher {
                     DecryptResult bruteResult = bruteResults.isEmpty() ? 
                         new DecryptResult(0, "", 0, "BRUTE_FORCE") : bruteResults.get(0);
                     
-                    System.out.printf("1. %s | Time: %6.2f ms%n", freqResult, freqTime);
-                    System.out.printf("2. %s | Time: %6.2f ms%n", wordsResult, wordsTime);
-                    System.out.printf("3. %s | Time: %6.2f ms%n", bruteResult, bruteTime);
+                    System.out.printf("1. %s | Tempo: %6.2f ms%n", freqResult, freqTime);
+                    System.out.printf("2. %s | Tempo: %6.2f ms%n", wordsResult, wordsTime);
+                    System.out.printf("3. %s | Tempo: %6.2f ms%n", bruteResult, bruteTime);
                     
                     String fastest = freqTime <= wordsTime && freqTime <= bruteTime ? "FREQUENCY" :
                                     wordsTime <= bruteTime ? "COMMON_WORDS" : "BRUTE_FORCE";
